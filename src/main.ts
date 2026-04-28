@@ -8,9 +8,9 @@ async function bootstrap() {
   
   app.enableCors();
   
-  const port = configService.get<number>('PORT') || 3001;
-  await app.listen(port);
+  const port = process.env.PORT || 3001;
+  await app.listen(port, '0.0.0.0');
   
-  console.log(`Backend is running on: ${await app.getUrl()}`);
+  console.log(`Backend is running on port: ${port}`);
 }
 bootstrap();
