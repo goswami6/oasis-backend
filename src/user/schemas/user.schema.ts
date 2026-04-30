@@ -17,8 +17,17 @@ export class User {
   @Prop()
   name: string;
 
-  @Prop({ default: 0 })
+  @Prop({ default: 1000 })
   walletBalance: number;
+
+  @Prop()
+  membershipTier: string;
+
+  @Prop()
+  membershipExpiry: Date;
+
+  @Prop({ default: false })
+  isMembershipActive: boolean;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

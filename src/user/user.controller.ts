@@ -18,7 +18,33 @@ export class UserController {
   @Get(':id/wallet')
   async getWalletBalance(@Param('id') id: string) {
     const user = await this.userService.findOne(id);
-    return { success: true, balance: user?.walletBalance || 0 };
+    return { 
+      success: true, 
+      balance: user?.walletBalance || 0,
+      membershipActive: user?.isMembershipActive,
+      membershipExpiry: user?.membershipExpiry,
+      membershipTier: user?.membershipTier
+    };
+  }
+
+  @Post(':id/purchase-membership/:tier')
+  async purchaseMembership(@Param('id') id: string, @Param('tier') tier: string) {
+    try {
+      const user = await this.userService.purchaseMembership(id, tier);
+      return { success: true, user, message: `Membership ${tier} purchased successfully!` };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
+  }
+
+  @Post(':id/recharge')
+  async rechargeWallet(@Param('id') id: string, @Body('amount') amount: number) {
+    try {
+      const user = await this.userService.addWalletBalance(id, amount);
+      return { success: true, newBalance: user?.walletBalance, message: "Wallet recharged successfully." };
+    } catch (error) {
+      return { success: false, message: error.message };
+    }
   }
 
   @Post(':id/pay-with-wallet')

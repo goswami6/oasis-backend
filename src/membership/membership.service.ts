@@ -51,4 +51,8 @@ export class MembershipService implements OnModuleInit {
   async update(tier: string, updateData: Partial<Membership>) {
     return this.membershipModel.findOneAndUpdate({ tier }, updateData, { new: true }).exec();
   }
+
+  async findByTier(tier: string) {
+    return this.membershipModel.findOne({ tier }).exec();
+  }
 }
