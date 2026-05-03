@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { MembershipModule } from './membership/membership.module';
 import { MemberModule } from './member/member.module';
 import { ContactModule } from './contact/contact.module';
+import { PaymentModule } from './payment/payment.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { ContactModule } from './contact/contact.module';
     MembershipModule,
     MemberModule,
     ContactModule,
+    PaymentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

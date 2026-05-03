@@ -31,7 +31,22 @@ export class UserService {
   }
 
   async addWalletBalance(id: string, amount: number): Promise<UserDocument | null> {
-    return this.userModel.findByIdAndUpdate(id, { $inc: { walletBalance: amount } }, { new: true }).exec();
+    const transaction = {
+      id: `#TR-${Math.floor(1000 + Math.random() * 9000)}`,
+      desc: "Wallet Recharge",
+      date: new Date(),
+      type: 'Credit',
+      amount: amount,
+      status: 'Success'
+    };
+    return this.userModel.findByIdAndUpdate(
+      id, 
+      { 
+        $inc: { walletBalance: amount },
+        $push: { ledger: transaction }
+      }, 
+      { new: true }
+    ).exec();
   }
 
   async deductWalletBalance(id: string, amount: number): Promise<UserDocument | null> {
@@ -46,7 +61,17 @@ export class UserService {
 
     if (user.walletBalance < amount) throw new Error("Insufficient wallet balance");
     
+    const transaction = {
+      id: `#TR-${Math.floor(1000 + Math.random() * 9000)}`,
+      desc: "Payment via NXT",
+      date: new Date(),
+      type: 'Debit',
+      amount: amount,
+      status: 'Success'
+    };
+    
     user.walletBalance -= amount;
+    user.ledger.push(transaction as any);
     return user.save();
   }
 

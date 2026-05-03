@@ -23,7 +23,9 @@ export class UserController {
       balance: user?.walletBalance || 0,
       membershipActive: user?.isMembershipActive,
       membershipExpiry: user?.membershipExpiry,
-      membershipTier: user?.membershipTier
+      membershipTier: user?.membershipTier,
+      referralCount: user?.referralCount || 0,
+      ledger: user?.ledger || []
     };
   }
 

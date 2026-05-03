@@ -28,6 +28,18 @@ export class User {
 
   @Prop({ default: false })
   isMembershipActive: boolean;
+  @Prop({ default: 0 })
+  referralCount: number;
+
+  @Prop({ default: [] })
+  ledger: {
+    id: string,
+    desc: string,
+    date: Date,
+    type: 'Credit' | 'Debit',
+    amount: number,
+    status: string
+  }[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
